@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/applied-concurrency-in-go/models"
+	"github.com/applied-concurrency-in-go/models/orderstatus"
 	"github.com/applied-concurrency-in-go/repo"
 	"github.com/stretchr/testify/assert"
 )
@@ -30,7 +31,7 @@ func Test_CreateOrder(t *testing.T) {
 		order, err := rp.CreateOrder(item)
 		assert.Nil(t, err)
 		assert.NotNil(t, order)
-		assert.Equal(t, models.OrderStatus_Completed, order.Status)
+		assert.Equal(t, orderstatus.Completed, order.Status)
 		assert.Equal(t, item, order.Item)
 		assert.Equal(t, "", order.Error)
 	})
@@ -44,7 +45,7 @@ func Test_CreateOrder(t *testing.T) {
 		order, err := rp.CreateOrder(item)
 		assert.Nil(t, err)
 		assert.NotNil(t, order)
-		assert.Equal(t, models.OrderStatus_Rejected, order.Status)
+		assert.Equal(t, orderstatus.Rejected, order.Status)
 		assert.Equal(t, item, order.Item)
 		assert.Contains(t, order.Error, "not enough stock")
 	})
@@ -86,7 +87,7 @@ func Test_GetOrder(t *testing.T) {
 		order, err := rp.CreateOrder(item)
 		assert.Nil(t, err)
 		assert.NotNil(t, order)
-		
+
 		fetchedOrder, err := rp.GetOrder(order.ID)
 		assert.Nil(t, err)
 		assert.NotNil(t, order)
@@ -103,7 +104,7 @@ func Test_GetOrder(t *testing.T) {
 		order, err := rp.CreateOrder(item)
 		assert.Nil(t, err)
 		assert.NotNil(t, order)
-		
+
 		_, err = rp.GetOrder("blablabla")
 		assert.NotNil(t, err)
 		assert.Contains(t, err.Error(), "no order found")

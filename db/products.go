@@ -4,39 +4,40 @@ import (
 	"fmt"
 	"sort"
 
+	"github.com/applied-concurrency-in-go/db/internal/productsmap"
+	"github.com/applied-concurrency-in-go/fixtures"
 	"github.com/applied-concurrency-in-go/models"
-	"github.com/applied-concurrency-in-go/utils"
 )
 
 type ProductDB struct {
-	products map[string]models.Product
+	products productsmap.Map
 }
 
-// NewProducts creates a new empty product DB
-func NewProducts() (*ProductDB, error) {
-	p := &ProductDB{
-		products: make(map[string]models.Product),
-	}
+// NewProductsDB creates a new empty product DB
+func NewProductsDB() (*ProductDB, error) {
+	db := &ProductDB{}
 	// load start position
-	if err := utils.ImportProducts(p.products); err != nil {
+	err := fixtures.ImportProducts(func(productKey string, product models.Product) {
+		db.products.Store(productKey, product)
+	})
+	if err != nil {
 		return nil, err
 	}
 
-	return p, nil
+	return db, nil
 }
 
-// Exists checks whether a product with a give id exists
-func (p *ProductDB) Exists(id string) error {
-	if _, ok := p.products[id]; !ok {
-		return fmt.Errorf("no product found for id %s", id)
-	}
+// TODO: What happens on the calling site if I replace a generic type (eg. `string`) with a tiny-type (et. `type ProductId string`)?
 
-	return nil
+// Checks whether a product with a given id exists
+func (p *ProductDB) Exists(id string) bool {
+	_, ok := p.products.Load(id)
+	return ok
 }
 
 // Find returns a given product if one exists
 func (p *ProductDB) Find(id string) (models.Product, error) {
-	prod, ok := p.products[id]
+	prod, ok := p.products.Load(id)
 	if !ok {
 		return models.Product{}, fmt.Errorf("no product found for id %s", id)
 	}
@@ -46,17 +47,18 @@ func (p *ProductDB) Find(id string) (models.Product, error) {
 
 // Upsert creates or updates a product in the orders DB
 func (p *ProductDB) Upsert(prod models.Product) {
-	p.products[prod.ID] = prod
+	p.products.Store(prod.ID, prod)
 }
 
 // FindAll returns all products in the system
 func (p *ProductDB) FindAll() []models.Product {
-	var allProducts []models.Product
-	for _, product := range p.products {
-		allProducts = append(allProducts, product)
-	}
-	sort.Slice(allProducts, func(i, j int) bool {
-		return allProducts[i].ID < allProducts[j].ID
+	var res []models.Product
+	p.products.Range(func(_ string, product models.Product) bool {
+		res = append(res, product)
+		return true
 	})
-	return allProducts
+	sort.Slice(res, func(i, j int) bool {
+		return res[i].ID < res[j].ID
+	})
+	return res
 }
