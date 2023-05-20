@@ -9,7 +9,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/applied-concurrency-in-go/models"
+	"github.com/applied-concurrency-in-go/models/order"
 )
 
 const simulationCount int = 50
@@ -39,7 +39,7 @@ func createRandomOrder(number int, wg *sync.WaitGroup) {
 	rand.Seed(time.Now().UnixNano())
 	amount := rand.Intn(maxOrderAmount) + 1
 	product := products[rand.Intn(len(products))]
-	item := models.Item{
+	item := order.Item{
 		ProductID: product,
 		Amount:    amount,
 	}

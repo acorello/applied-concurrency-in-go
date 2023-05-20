@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/applied-concurrency-in-go/models"
+	"github.com/applied-concurrency-in-go/models/order"
 	"github.com/applied-concurrency-in-go/repo"
 	"github.com/gorilla/mux"
 )
@@ -60,7 +60,7 @@ func (h *handler) OrderShow(w http.ResponseWriter, r *http.Request) {
 
 // OrderInsert creates a new order with the given parameters
 func (h *handler) OrderInsert(w http.ResponseWriter, r *http.Request) {
-	var item models.Item
+	var item order.Item
 	// Read the request body
 	if err := json.NewDecoder(r.Body).Decode(&item); err != nil {
 		writeResponse(w, http.StatusBadRequest, nil, fmt.Errorf("invalid order body:%v", err))

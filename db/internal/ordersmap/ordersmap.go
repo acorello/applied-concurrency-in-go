@@ -9,10 +9,10 @@ package ordersmap
 import (
 	"sync"
 
-	"github.com/applied-concurrency-in-go/models"
+	"github.com/applied-concurrency-in-go/models/order"
 )
 
-type valueType = models.Order
+type valueType = order.Order
 
 var zeroValue = valueType{}
 

@@ -4,7 +4,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/applied-concurrency-in-go/models"
+	"github.com/applied-concurrency-in-go/models/order"
 	"github.com/applied-concurrency-in-go/models/orderstatus"
 	"github.com/applied-concurrency-in-go/repo"
 	"github.com/stretchr/testify/assert"
@@ -24,7 +24,7 @@ func Test_CreateOrder(t *testing.T) {
 	t.Run("create & complete order", func(t *testing.T) {
 		rp := initRepo(t)
 
-		item := models.Item{
+		item := order.Item{
 			ProductID: existingProduct,
 			Amount:    5,
 		}
@@ -38,7 +38,7 @@ func Test_CreateOrder(t *testing.T) {
 	t.Run("create & not enough stock order", func(t *testing.T) {
 		rp := initRepo(t)
 
-		item := models.Item{
+		item := order.Item{
 			ProductID: existingProduct,
 			Amount:    500,
 		}
@@ -52,7 +52,7 @@ func Test_CreateOrder(t *testing.T) {
 	t.Run("create & invalid item order", func(t *testing.T) {
 		rp := initRepo(t)
 
-		item := models.Item{
+		item := order.Item{
 			ProductID: "blablabla",
 			Amount:    5,
 		}
@@ -65,7 +65,7 @@ func Test_CreateOrder(t *testing.T) {
 	t.Run("create & negative stock order", func(t *testing.T) {
 		rp := initRepo(t)
 
-		item := models.Item{
+		item := order.Item{
 			ProductID: existingProduct,
 			Amount:    -5,
 		}
@@ -79,7 +79,7 @@ func Test_CreateOrder(t *testing.T) {
 func Test_GetOrder(t *testing.T) {
 	t.Run("existing order", func(t *testing.T) {
 		rp := initRepo(t)
-		item := models.Item{
+		item := order.Item{
 			ProductID: existingProduct,
 			Amount:    5,
 		}
@@ -96,7 +96,7 @@ func Test_GetOrder(t *testing.T) {
 
 	t.Run("non-existing order", func(t *testing.T) {
 		rp := initRepo(t)
-		item := models.Item{
+		item := order.Item{
 			ProductID: existingProduct,
 			Amount:    5,
 		}
