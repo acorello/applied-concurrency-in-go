@@ -6,7 +6,7 @@ import (
 
 	"github.com/applied-concurrency-in-go/db/internal/productsmap"
 	"github.com/applied-concurrency-in-go/fixtures"
-	"github.com/applied-concurrency-in-go/models"
+	"github.com/applied-concurrency-in-go/models/product"
 )
 
 type ProductDB struct {
@@ -17,7 +17,7 @@ type ProductDB struct {
 func NewProductsDB() (*ProductDB, error) {
 	db := &ProductDB{}
 	// load start position
-	err := fixtures.ImportProducts(func(productKey string, product models.Product) {
+	err := fixtures.ImportProducts(func(productKey string, product product.Product) {
 		db.products.Store(productKey, product)
 	})
 	if err != nil {
@@ -36,24 +36,24 @@ func (p *ProductDB) Exists(id string) bool {
 }
 
 // Find returns a given product if one exists
-func (p *ProductDB) Find(id string) (models.Product, error) {
+func (p *ProductDB) Find(id string) (product.Product, error) {
 	prod, ok := p.products.Load(id)
 	if !ok {
-		return models.Product{}, fmt.Errorf("no product found for id %s", id)
+		return product.Product{}, fmt.Errorf("no product found for id %s", id)
 	}
 
 	return prod, nil
 }
 
 // Upsert creates or updates a product in the orders DB
-func (p *ProductDB) Upsert(prod models.Product) {
+func (p *ProductDB) Upsert(prod product.Product) {
 	p.products.Store(prod.ID, prod)
 }
 
 // FindAll returns all products in the system
-func (p *ProductDB) FindAll() []models.Product {
-	var res []models.Product
-	p.products.Range(func(_ string, product models.Product) bool {
+func (p *ProductDB) FindAll() []product.Product {
+	var res []product.Product
+	p.products.Range(func(_ string, product product.Product) bool {
 		res = append(res, product)
 		return true
 	})

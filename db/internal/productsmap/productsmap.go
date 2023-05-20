@@ -9,10 +9,10 @@ package productsmap
 import (
 	"sync"
 
-	"github.com/applied-concurrency-in-go/models"
+	"github.com/applied-concurrency-in-go/models/product"
 )
 
-type valueType = models.Product
+type valueType = product.Product
 
 var zeroValue = valueType{}
 

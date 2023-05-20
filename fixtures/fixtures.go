@@ -6,13 +6,13 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/applied-concurrency-in-go/models"
+	"github.com/applied-concurrency-in-go/models/product"
 )
 
 const productInputPath string = "./input/products.csv"
 
 // importProducts imports the start position of the products DB
-func ImportProducts(addProduct func(string, models.Product)) error {
+func ImportProducts(addProduct func(string, product.Product)) error {
 	const expectedFields = 5
 	productRecords, err := readCsv(productInputPath)
 	if err != nil {
@@ -32,7 +32,7 @@ func ImportProducts(addProduct func(string, models.Product)) error {
 		if err != nil {
 			continue
 		}
-		addProduct(id, models.Product{
+		addProduct(id, product.Product{
 			ID:    id,
 			Name:  fmt.Sprintf("%s(%s)", productRecord[1], productRecord[3]),
 			Stock: stock,

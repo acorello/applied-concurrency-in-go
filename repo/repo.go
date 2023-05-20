@@ -7,6 +7,7 @@ import (
 	"github.com/applied-concurrency-in-go/db"
 	"github.com/applied-concurrency-in-go/models"
 	"github.com/applied-concurrency-in-go/models/orderstatus"
+	"github.com/applied-concurrency-in-go/models/product"
 )
 
 // repo holds all the dependencies required for repo operations
@@ -18,7 +19,7 @@ type repo struct {
 // Repo is the interface we expose to outside packages
 type Repo interface {
 	CreateOrder(item models.Item) (*models.Order, error)
-	GetAllProducts() []models.Product
+	GetAllProducts() []product.Product
 	GetOrder(id string) (models.Order, error)
 }
 
@@ -36,7 +37,7 @@ func New() (Repo, error) {
 }
 
 // GetAllProducts returns all products in the system
-func (r *repo) GetAllProducts() []models.Product {
+func (r *repo) GetAllProducts() []product.Product {
 	return r.products.FindAll()
 }
 
