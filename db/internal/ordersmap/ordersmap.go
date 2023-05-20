@@ -23,7 +23,7 @@ type Map struct {
 	m sync.Map
 }
 
-func (I Map) Load(key string) (valueType, bool) {
+func (I Map) Load(key order.Id) (valueType, bool) {
 	if p, found := I.m.Load(key); found {
 		return p.(valueType), found
 	} else {
@@ -52,16 +52,16 @@ func (I Map) LoadAndDelete(key string) (value valueType, loaded bool) {
 	return p.(valueType), loaded
 }
 
-func (I Map) LoadOrStore(key string, value valueType) (valueType, bool) {
+func (I Map) LoadOrStore(key order.Id, value valueType) (valueType, bool) {
 	p, loaded := I.m.LoadOrStore(key, value)
 	return p.(valueType), loaded
 }
 
-func (I Map) Store(key string, value valueType) {
+func (I Map) Store(key order.Id, value valueType) {
 	I.m.Store(key, value)
 }
 
-func (I Map) Swap(key string, value valueType) (valueType, bool) {
+func (I Map) Swap(key order.Id, value valueType) (valueType, bool) {
 	p, loaded := I.m.Swap(key, value)
 	return p.(valueType), loaded
 }

@@ -46,7 +46,7 @@ func (h *handler) ProductIndex(w http.ResponseWriter, r *http.Request) {
 // OrderShow fetches and displays one selected product
 func (h *handler) OrderShow(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-	orderId := vars["orderId"]
+	orderId := order.Id(vars["orderId"])
 	// Call the repository method corresponding to the operation
 	o, err := h.repo.GetOrder(orderId)
 	// Handle any errors & write an error HTTP status & response

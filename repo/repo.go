@@ -20,7 +20,7 @@ type repo struct {
 type Repo interface {
 	CreateOrder(item order.Item) (*order.Order, error)
 	GetAllProducts() []product.Product
-	GetOrder(id string) (order.Order, error)
+	GetOrder(id order.Id) (order.Order, error)
 }
 
 // New creates a new Order repo with the correct database dependencies
@@ -42,7 +42,7 @@ func (r *repo) GetAllProducts() []product.Product {
 }
 
 // GetProduct returns the given order if one exists
-func (r *repo) GetOrder(id string) (order.Order, error) {
+func (r *repo) GetOrder(id order.Id) (order.Order, error) {
 	return r.orders.Find(id)
 }
 

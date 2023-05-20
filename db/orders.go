@@ -19,7 +19,7 @@ func NewOrdersDB() *OrderDB {
 }
 
 // Find order for a given id, if one exists
-func (I *OrderDB) Find(id string) (order.Order, error) {
+func (I *OrderDB) Find(id order.Id) (order.Order, error) {
 	o, ok := I.placedOrders.Load(id)
 	if !ok {
 		return order.ZeroOrder, fmt.Errorf("no order found for %s order id", id)
