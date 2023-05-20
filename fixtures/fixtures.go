@@ -9,7 +9,7 @@ import (
 	"github.com/applied-concurrency-in-go/models/product"
 )
 
-const productInputPath string = "./input/products.csv"
+const productInputPath string = "./fixtures/products.csv"
 
 // importProducts imports the start position of the products DB
 func ImportProducts(addProduct func(product.Id, product.Product)) error {
