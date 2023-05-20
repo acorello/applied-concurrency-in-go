@@ -11,10 +11,10 @@ import (
 )
 
 const productCode = "TEST"
-const productStock = 11
+const productStock = 101
 
 // how many goroutines we will place orders on
-const concurrentOrders = 10
+const concurrentOrders = productStock - 1
 
 // THIS TEST IS FLAKY. FOR DEMO PURPOSES ONLY
 func Test_ProcessOrder(t *testing.T) {
