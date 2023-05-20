@@ -12,7 +12,7 @@ import (
 const productInputPath string = "./input/products.csv"
 
 // importProducts imports the start position of the products DB
-func ImportProducts(addProduct func(string, product.Product)) error {
+func ImportProducts(addProduct func(product.Id, product.Product)) error {
 	const expectedFields = 5
 	productRecords, err := readCsv(productInputPath)
 	if err != nil {
@@ -23,7 +23,7 @@ func ImportProducts(addProduct func(string, product.Product)) error {
 		if len(productRecord) != expectedFields {
 			continue
 		}
-		id := productRecord[0]
+		id := product.Id(productRecord[0])
 		stock, err := strconv.Atoi(productRecord[2])
 		if err != nil {
 			continue

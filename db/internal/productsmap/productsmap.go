@@ -57,7 +57,7 @@ func (I Map) LoadOrStore(key string, value valueType) (valueType, bool) {
 	return p.(valueType), loaded
 }
 
-func (I Map) Store(key string, value valueType) {
+func (I Map) Store(key product.Id, value valueType) {
 	I.m.Store(key, value)
 }
 

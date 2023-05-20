@@ -17,7 +17,7 @@ type ProductDB struct {
 func NewProductsDB() (*ProductDB, error) {
 	db := &ProductDB{}
 	// load start position
-	err := fixtures.ImportProducts(func(productKey string, product product.Product) {
+	err := fixtures.ImportProducts(func(productKey product.Id, product product.Product) {
 		db.products.Store(productKey, product)
 	})
 	if err != nil {
