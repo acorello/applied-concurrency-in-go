@@ -27,7 +27,7 @@ func NewProductsDB() (*ProductDB, error) {
 	return db, nil
 }
 
-// TODO: What happens on the calling site if I replace a generic type (eg. `string`) with a tiny-type (et. `type ProductId string`)?
+// TODO: What happens on the calling site if I replace string with a tiny-type (eg. `type ProductId string`)?
 
 // Checks whether a product with a given id exists
 func (p *ProductDB) Exists(id string) bool {
